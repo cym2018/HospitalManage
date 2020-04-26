@@ -1,0 +1,4 @@
+GET http://localhost:8080
+
+###
+GET http://localhost:8080/doctor/reg?username=root&password=123456

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+  <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+  <script src="js/js.js"></script>
+  <title>Success</title>
+</head>
+<body>
+<div id="app">
+  {{message}},五秒钟后<a :href="jumpUrl">跳转</a><br>
+</div>
+<script>
+  let app = new Vue({
+      el: "#app",
+      data: {
+        jumpUrl: getUrl("jumpUrl"),
+        message:getUrl("message")
+      },
+      created() {
+        setTimeout(function(){window.location.href = app.$data.jumpUrl}, 5000);
+      }
+    });
+</script>
+</body>
+</html>
