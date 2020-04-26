@@ -3,26 +3,25 @@ package org.example.section;
 import org.example.common.CommonEntity;
 import org.example.doctor.Doctor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 public class Section extends CommonEntity {
     @Column
     private String sectionName;
-    @OneToMany
-    private Set<Doctor> users;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id")
+    private Set<Doctor> doctors;
     @Column
     private String location;
 
-    public Set<Doctor> getUsers() {
-        return users;
+    public Set<Doctor> getDoctors() {
+        return doctors;
     }
 
-    public void setUsers(Set<Doctor> users) {
-        this.users = users;
+    public void setDoctors(Set<Doctor> doctors) {
+        this.doctors = doctors;
     }
 
     public String getLocation() {

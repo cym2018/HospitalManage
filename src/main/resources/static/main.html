@@ -17,48 +17,125 @@
   <title>病床管理</title>
 </head>
 <body>
-<div class="navbar navbar-default navbar-fixed-top" id="app">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a href="#" class="navbar-brand">管理</a>
-    </div>
-
-    <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li><a href="#"><span class="glyphicon glyphicon-bed"></span>病床管理</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-bed"></span>患者管理</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-tree-conifer"></span>部门管理</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span>医生管理</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-book"></span>数据分析</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-          <a href="#">
-            <span class="glyphicon glyphicon-envelop"></span>{{login.username}}
-          </a>
-        </li>
-        <li>
-          <a @click="logout">
-            <span class="glyphicon glyphicon-log-out"></span> 退出
-          </a>
-        </li>
-      </ul>
+<div id="app">
+  <div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a href="#" class="navbar-brand">管理</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a @click="display='bed'"><span class="glyphicon glyphicon-bed"></span>病床管理</a></li>
+          <li><a @click="display='patient'"><span class="glyphicon glyphicon-bed"></span>患者管理</a></li>
+          <li><a @click="display='section'"><span class="glyphicon glyphicon-tree-conifer"></span>部门管理</a></li>
+          <li><a @click="display='doctor'"><span class="glyphicon glyphicon-user"></span>医生管理</a></li>
+          <li><a @click="display='recode'"><span class="glyphicon glyphicon-book"></span>就诊记录</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="#">
+              <span class="glyphicon glyphicon-envelop"></span>{{login.username}}
+            </a>
+          </li>
+          <li>
+            <a @click="logout">
+              <span class="glyphicon glyphicon-log-out"></span> 退出
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
-</div>
-<div class="container body-content">
-  <div class="row">
-
+  <div class="container body-content" v-if="display==='bed'">
+    <h1>病床管理</h1>
+    <div class="row">
+      <table class="table table-bordered">
+        <tr>
+          <th v-for="(value,key) in list[0]">{{key}}</th>
+        </tr>
+        <tr v-for="i in list">
+          <td v-for="j in i">{{j}}</td>
+        </tr>
+      </table>
+    </div>
+    <hr>
+    <footer class="navbar navbar-fixed-bottom text-center bg-primary">
+      <p>© DaiLei </p>
+    </footer>
   </div>
-  <hr>
-  <footer class="navbar navbar-fixed-bottom text-center bg-primary">
-    <p>© DaiLei </p>
-  </footer>
+  <div class="container body-content" v-if="display==='patient'">
+    <h1>患者管理</h1>
+    <div class="row">
+      <table class="table table-bordered">
+        <tr>
+          <th v-for="(value,key) in list[0]">{{key}}</th>
+        </tr>
+        <tr v-for="i in list">
+          <td v-for="j in i">{{j}}</td>
+        </tr>
+      </table>
+    </div>
+    <hr>
+    <footer class="navbar navbar-fixed-bottom text-center bg-primary">
+      <p>© DaiLei </p>
+    </footer>
+  </div>
+  <div class="container body-content" v-if="display==='section'">
+    <h1>部门管理</h1>
+    <div class="row">
+      <table class="table table-bordered">
+        <tr>
+          <th v-for="(value,key) in list[0]">{{key}}</th>
+        </tr>
+        <tr v-for="i in list">
+          <td v-for="j in i">{{j}}</td>
+        </tr>
+      </table>
+    </div>
+    <hr>
+    <footer class="navbar navbar-fixed-bottom text-center bg-primary">
+      <p>© DaiLei </p>
+    </footer>
+  </div>
+  <div class="container body-content" v-if="display==='doctor'">
+    <h1>医生管理</h1>
+    <div class="row">
+      <table class="table table-bordered">
+        <tr>
+          <th v-for="(value,key) in list[0]">{{key}}</th>
+        </tr>
+        <tr v-for="i in list">
+          <td v-for="j in i">{{j}}</td>
+        </tr>
+      </table>
+    </div>
+    <hr>
+    <footer class="navbar navbar-fixed-bottom text-center bg-primary">
+      <p>© DaiLei </p>
+    </footer>
+  </div>
+  <div class="container body-content" v-if="display==='recode'">
+    <h1>就诊记录</h1>
+    <div class="row">
+      <table class="table table-bordered">
+        <tr>
+          <th v-for="(value,key) in list[0]">{{key}}</th>
+        </tr>
+        <tr v-for="i in list">
+          <td v-for="j in i">{{j}}</td>
+        </tr>
+      </table>
+    </div>
+    <hr>
+    <footer class="navbar navbar-fixed-bottom text-center bg-primary">
+      <p>© DaiLei </p>
+    </footer>
+  </div>
 </div>
 <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
@@ -79,16 +156,28 @@
         })
       }
     },
+    watch: {
+      display() {
+        jQuery.get("/" + this.display + "/list").then(res => {
+          this.list = JSON.parse(res);
+        })
+      }
+    },
     created() {
-
+      self = this;
+      jQuery.get("/" + this.display + "/list").then(res => {
+        this.list = JSON.parse(res);
+      })
     },
     data: {
       login: {
         username: getCookie("username"),
         password: getCookie("password")
-      }
+      },
+      list: [],
+      display: 'bed'
     }
-  })
+  });
 </script>
 </body>
 </html>

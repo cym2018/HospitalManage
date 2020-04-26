@@ -1,11 +1,13 @@
 package org.example.doctor;
 
-import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.example.bed.Bed;
 import org.example.common.PeopleEntity;
+import org.example.section.Section;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import java.util.Date;
 
 /**
@@ -18,6 +20,8 @@ public class Doctor extends PeopleEntity {
     private String username;
     @Column
     private String password;
+    @ManyToOne
+    private Section section;
 
     public String getUsername() {
         return username;
@@ -36,51 +40,6 @@ public class Doctor extends PeopleEntity {
     }
 
     @Override
-    public Bed getBed() {
-        return super.getBed();
-    }
-
-    @Override
-    public void setAge(Integer age) {
-        super.setAge(age);
-    }
-
-    @Override
-    public void setBed(Bed bed) {
-        super.setBed(bed);
-    }
-
-    @Override
-    public void setGender(String gender) {
-        super.setGender(gender);
-    }
-
-    @Override
-    public void setId(Integer id) {
-        super.setId(id);
-    }
-
-    @Override
-    public void setIdNumber(String idNumber) {
-        super.setIdNumber(idNumber);
-    }
-
-    @Override
-    public void setName(String name) {
-        super.setName(name);
-    }
-
-    @Override
-    public void setNote(String note) {
-        super.setNote(note);
-    }
-
-    @Override
-    public void setState(Integer state) {
-        super.setState(state);
-    }
-
-    @Override
     public Date getCreateTs() {
         return super.getCreateTs();
     }
@@ -96,8 +55,18 @@ public class Doctor extends PeopleEntity {
     }
 
     @Override
+    public void setAge(Integer age) {
+        super.setAge(age);
+    }
+
+    @Override
     public Integer getId() {
         return super.getId();
+    }
+
+    @Override
+    public void setId(Integer id) {
+        super.setId(id);
     }
 
     @Override
@@ -106,8 +75,18 @@ public class Doctor extends PeopleEntity {
     }
 
     @Override
+    public void setState(Integer state) {
+        super.setState(state);
+    }
+
+    @Override
     public String getGender() {
         return super.getGender();
+    }
+
+    @Override
+    public void setGender(String gender) {
+        super.setGender(gender);
     }
 
     @Override
@@ -116,12 +95,35 @@ public class Doctor extends PeopleEntity {
     }
 
     @Override
+    public void setIdNumber(String idNumber) {
+        super.setIdNumber(idNumber);
+    }
+
+    @Override
     public String getName() {
         return super.getName();
     }
 
     @Override
+    public void setName(String name) {
+        super.setName(name);
+    }
+
+    @Override
     public String getNote() {
         return super.getNote();
+    }
+
+    @Override
+    public void setNote(String note) {
+        super.setNote(note);
+    }
+
+    public Section getSection() {
+        return section;
+    }
+
+    public void setSection(Section section) {
+        this.section = section;
     }
 }

@@ -25,6 +25,8 @@ public abstract class CommonEntity {
     protected Date updateTs;
 
     public Integer getState() {
+        if (state == null)
+            return 0;
         return state;
     }
 
@@ -55,4 +57,5 @@ public abstract class CommonEntity {
     public Date getUpdateTs() {
         return updateTs;
     }
+
 }

@@ -12,8 +12,6 @@ public abstract class PeopleEntity extends CommonEntity {
     protected String gender;
     @Column
     protected String idNumber;
-    @ManyToOne
-    protected Bed bed;
     @Column
     protected String name;
     @Column
@@ -35,13 +33,6 @@ public abstract class PeopleEntity extends CommonEntity {
         this.idNumber = idNumber;
     }
 
-    public Bed getBed() {
-        return bed;
-    }
-
-    public void setBed(Bed bed) {
-        this.bed = bed;
-    }
 
     public String getName() {
         return name;

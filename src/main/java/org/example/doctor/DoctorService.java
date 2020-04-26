@@ -3,6 +3,9 @@ package org.example.doctor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class DoctorService {
     @Autowired
@@ -21,5 +24,11 @@ public class DoctorService {
 
     public Doctor save(Doctor doctor) {
         return doctorRepository.save(doctor);
+    }
+
+    public List<DoctorListView> findAllListView(){
+        List<DoctorListView> doctorList=new ArrayList<>();
+        doctorRepository.findAll().forEach(o->doctorList.add(new DoctorListView(o)));
+        return doctorList;
     }
 }

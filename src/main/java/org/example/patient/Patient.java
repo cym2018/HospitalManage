@@ -4,11 +4,10 @@ import org.example.bed.Bed;
 import org.example.common.CommonEntity;
 import org.example.common.PeopleEntity;
 import org.example.recode.Recode;
+import org.hibernate.annotations.Cache;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -16,11 +15,9 @@ import java.util.Set;
  */
 @Entity
 public class Patient extends PeopleEntity {
-
-
     @OneToMany
+    @JoinColumn(name = "patient_id")
     private Set<Recode> recodes;
-
     public Set<Recode> getRecodes() {
         return recodes;
     }
@@ -28,6 +25,12 @@ public class Patient extends PeopleEntity {
     public void setRecodes(Set<Recode> recodes) {
         this.recodes = recodes;
     }
-
+    public void addRecode(Recode recode){
+        if(recodes==null){
+            recodes=new HashSet<>();
+        }
+        recodes.add(recode);
+        state=1;
+    }
 
 }

@@ -2,12 +2,11 @@ package org.example.bed;
 
 import org.example.common.CommonEntity;
 import org.example.patient.Patient;
+import org.example.recode.Recode;
 import org.example.section.Section;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -18,9 +17,10 @@ public class Bed extends CommonEntity {
     @ManyToOne
     private Section section;
     @Column
-    private Integer no;
+    private String no;
     @OneToMany
-    private Set<Patient> patients;
+    @JoinColumn(name = "bed_id")
+    private Set<Recode> recodes;
 
     public Section getSection() {
         return section;
@@ -30,19 +30,26 @@ public class Bed extends CommonEntity {
         this.section = section;
     }
 
-    public Integer getNo() {
+    public String getNo() {
         return no;
     }
 
-    public void setNo(Integer no) {
+    public void setNo(String no) {
         this.no = no;
     }
 
-    public Set<Patient> getPatients() {
-        return patients;
+    public Set<Recode> getRecodes() {
+        return recodes;
     }
 
-    public void setPatients(Set<Patient> patients) {
-        this.patients = patients;
+    public void setRecodes(Set<Recode> recodes) {
+        this.recodes = recodes;
+    }
+    public void addRecode(Recode recode){
+        if (recodes==null){
+            recodes=new HashSet<>();
+        }
+        this.recodes.add(recode);
+        state=1;
     }
 }
