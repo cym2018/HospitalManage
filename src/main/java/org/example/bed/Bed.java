@@ -1,7 +1,6 @@
 package org.example.bed;
 
 import org.example.common.CommonEntity;
-import org.example.patient.Patient;
 import org.example.recode.Recode;
 import org.example.section.Section;
 
@@ -45,11 +44,12 @@ public class Bed extends CommonEntity {
     public void setRecodes(Set<Recode> recodes) {
         this.recodes = recodes;
     }
-    public void addRecode(Recode recode){
-        if (recodes==null){
-            recodes=new HashSet<>();
+
+    public void addRecode(Recode recode) {
+        if (recodes == null) {
+            recodes = new HashSet<>();
         }
         this.recodes.add(recode);
-        state=1;
+        state = 1;
     }
 }
