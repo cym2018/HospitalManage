@@ -1,5 +1,6 @@
 package org.example.section;
 
+import org.example.bed.Bed;
 import org.example.common.CommonEntity;
 import org.example.doctor.Doctor;
 
@@ -10,11 +11,22 @@ import java.util.Set;
 public class Section extends CommonEntity {
     @Column
     private String sectionName;
+    @Column
+    private String location;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id")
     private Set<Doctor> doctors;
-    @Column
-    private String location;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id")
+    private Set<Bed> beds;
+
+    public Set<Bed> getBeds() {
+        return beds;
+    }
+
+    public void setBeds(Set<Bed> beds) {
+        this.beds = beds;
+    }
 
     public Set<Doctor> getDoctors() {
         return doctors;

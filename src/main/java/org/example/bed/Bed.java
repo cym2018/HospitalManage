@@ -5,6 +5,7 @@ import org.example.recode.Recode;
 import org.example.section.Section;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -51,5 +52,45 @@ public class Bed extends CommonEntity {
         }
         this.recodes.add(recode);
         state = 1;
+    }
+
+    @Override
+    public Date getCreateTs() {
+        return super.getCreateTs();
+    }
+
+    @Override
+    public Date getUpdateTs() {
+        return super.getUpdateTs();
+    }
+
+    @Override
+    public Integer getId() {
+        return super.getId();
+    }
+
+    @Override
+    public Integer getState() {
+        return super.getState();
+    }
+
+    @Override
+    public String getNote() {
+        return super.getNote();
+    }
+
+    @Override
+    public void setId(Integer id) {
+        super.setId(id);
+    }
+
+    @Override
+    public void setNote(String note) {
+        super.setNote(note);
+    }
+
+    @Override
+    public void setState(Integer state) {
+        super.setState(state);
     }
 }
