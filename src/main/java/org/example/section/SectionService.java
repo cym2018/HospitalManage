@@ -18,9 +18,16 @@ public class SectionService {
     public Section findById(Integer id) {
         return sectionRepository.findById(id).orElse(null);
     }
-    public List<SectionListView> findAllListView(){
-        List<SectionListView> sectionList=new ArrayList<>();
-        sectionRepository.findAll().forEach(o->sectionList.add(new SectionListView(o)));
+
+    public List<SectionListView> findAllListView() {
+        List<SectionListView> sectionList = new ArrayList<>();
+        sectionRepository.findAll().forEach(o -> sectionList.add(new SectionListView(o)));
+        return sectionList;
+    }
+
+    public List<SectionKeyValueView> findAllKeyValueView() {
+        List<SectionKeyValueView> sectionList = new ArrayList<>();
+        sectionRepository.findAll().forEach(o -> sectionList.add(new SectionKeyValueView(o)));
         return sectionList;
     }
 }

@@ -1,11 +1,13 @@
 package org.example.doctor;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.example.section.Section;
 
+/**
+ * @description 医生表的列表视图, 屏蔽多余字段, 手动设置顺序
+ */
 @JsonPropertyOrder({"id", "username", "name", "gender", "age", "idNumber"})
 public class DoctorListView {
-    private Doctor doctor;
+    private final Doctor doctor;
 
     public DoctorListView(Doctor doctor) {
         this.doctor = doctor;
@@ -34,7 +36,8 @@ public class DoctorListView {
     public Integer getAge() {
         return doctor.getAge();
     }
-    public String getSection(){
+
+    public String getSection() {
         return doctor.getSection().getSectionName();
     }
 }

@@ -7,9 +7,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * @description 表的公共属性
+ * @description 所有表都包含的公共属性,id,状态,备注,创建时间,更新时间
  */
-
 @MappedSuperclass
 public abstract class CommonEntity {
     @Id

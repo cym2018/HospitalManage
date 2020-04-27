@@ -18,4 +18,9 @@ public class SectionController {
     public String sectionList() throws JsonProcessingException {
         return objectMapper.writeValueAsString(sectionService.findAllListView());
     }
+
+    @RequestMapping("/sectionSelect")
+    public String sectionSelect() throws JsonProcessingException {
+        return objectMapper.writeValueAsString(sectionService.findAllKeyValueView());
+    }
 }

@@ -1,6 +1,5 @@
 package org.example.common;
 
-import org.example.doctor.Doctor;
 import org.example.doctor.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,36 +13,42 @@ import javax.servlet.http.HttpServletResponse;
 public class MainRestController {
     @Autowired
     DoctorService doctorService;
+    @Autowired
+    HttpServletRequest request;
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Autowired
+    HttpServletResponse response;
 
-    @RequestMapping("/init")
-    public String init() {
-        if (doctorService.Init()) {
-            Doctor doctor = new Doctor();
-            doctor.setUsername("admin");
-            doctor.setPassword("admin");
-            doctorService.save(doctor);
-            return "初始化成功:用户名:admin,密码:admin";
-        }
-        return "";
-    }
-
+    /**
+     * @param username 用户名
+     * @param password 密码
+     * @return 登陆成功或失败
+     * @description 登录功能, 验证登陆成功后, 为用户返回cookie和登陆状态
+     */
     @RequestMapping("/login")
-    public boolean setCookie(HttpServletResponse response, String username, String password) {
+    public String login(String username, String password) {
         if (doctorService.Login(username, password)) {
+            request.getSession().setAttribute("username", username);
             response.addCookie(new Cookie("username", username));
             response.addCookie(new Cookie("password", password));
-            return true;
+            return "登陆成功";
         }
-        return false;
+        return "用户名或密码错误";
     }
 
+    /**
+     * @return 注销成功
+     * @description 删除登陆信息:Cookie和Session
+     */
     @RequestMapping("/logout")
-    public boolean login(HttpServletRequest request, HttpServletResponse response) {
+    public boolean logout() {
         Cookie[] cookies = request.getCookies();
         for (Cookie i : cookies) {
             i.setMaxAge(0);
             response.addCookie(i);
         }
+        request.getSession().invalidate();
         return true;
     }
+
 }

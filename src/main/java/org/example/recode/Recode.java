@@ -1,5 +1,6 @@
 package org.example.recode;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.example.bed.Bed;
 import org.example.common.CommonEntity;
 import org.example.patient.Patient;
@@ -10,6 +11,7 @@ import javax.persistence.ManyToOne;
 import java.util.Date;
 
 @Entity
+@JsonIgnoreProperties(value = "recode")
 public class Recode extends CommonEntity {
     @ManyToOne
     private Bed bed;

@@ -3,12 +3,19 @@ package org.example.bed;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.example.recode.Recode;
 
-@JsonPropertyOrder({"id", "no", "section", "patient","state"})
+/**
+ * @description 病床表的列表视图, 屏蔽多余字段, 手动设置顺序
+ */
+@JsonPropertyOrder({"id", "no", "section", "patient", "state"})
 public class BedListView {
-    Bed bed;
+    private final Bed bed;
 
     public BedListView(Bed bed) {
         this.bed = bed;
+    }
+
+    public Integer getId() {
+        return bed.getId();
     }
 
     public String getSection() {
@@ -23,14 +30,15 @@ public class BedListView {
         Recode recode = bed.getRecodes().stream().filter(o -> o.getState() == 0).findFirst().orElse(null);
         return recode == null ? null : recode.getPatient().getName();
     }
-    public String getState(){
-        switch (bed.getState()){
+
+    public String getState() {
+        switch (bed.getState()) {
             case 0:
-                return "空闲";
+                return "可用";
             case 1:
-                return "占用";
+                return "正在使用";
             case 2:
-                return "停用";
+                return "禁止使用";
             default:
                 return null;
         }

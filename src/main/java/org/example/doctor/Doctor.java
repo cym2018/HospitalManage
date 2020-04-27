@@ -1,7 +1,6 @@
 package org.example.doctor;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import org.example.bed.Bed;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.example.common.PeopleEntity;
 import org.example.section.Section;
 
@@ -11,7 +10,7 @@ import javax.persistence.ManyToOne;
 import java.util.Date;
 
 /**
- * @description
+ * @description 医生实体类, 对应用户名, 密码, 所属部门
  */
 @SuppressWarnings("unused")
 @Entity

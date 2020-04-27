@@ -1,5 +1,6 @@
 package org.example.bed;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.example.common.CommonEntity;
 import org.example.recode.Recode;
 import org.example.section.Section;
@@ -10,13 +11,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @description 病床表 对应:床号, 从属部门, 患者
+ * @description 病床表 床号, 所属部门,对应记录
  */
 @Entity
+@JsonIgnoreProperties(value = "bed")
 public class Bed extends CommonEntity {
     @ManyToOne
     private Section section;
-    @Column
+    @Column(unique = true)
     private String no;
     @OneToMany
     @JoinColumn(name = "bed_id")
@@ -70,8 +72,18 @@ public class Bed extends CommonEntity {
     }
 
     @Override
+    public void setId(Integer id) {
+        super.setId(id);
+    }
+
+    @Override
     public Integer getState() {
         return super.getState();
+    }
+
+    @Override
+    public void setState(Integer state) {
+        super.setState(state);
     }
 
     @Override
@@ -80,17 +92,21 @@ public class Bed extends CommonEntity {
     }
 
     @Override
-    public void setId(Integer id) {
-        super.setId(id);
-    }
-
-    @Override
     public void setNote(String note) {
         super.setNote(note);
     }
 
     @Override
-    public void setState(Integer state) {
-        super.setState(state);
+    public String toString() {
+        return "Bed{" +
+                "section=" + section +
+                ", no='" + no + '\'' +
+                ", recodes=" + recodes +
+                ", id=" + id +
+                ", state=" + state +
+                ", note='" + note + '\'' +
+                ", createTs=" + createTs +
+                ", updateTs=" + updateTs +
+                '}';
     }
 }

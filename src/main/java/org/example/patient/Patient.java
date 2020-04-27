@@ -1,23 +1,26 @@
 package org.example.patient;
 
-import org.example.bed.Bed;
-import org.example.common.CommonEntity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.example.common.PeopleEntity;
 import org.example.recode.Recode;
-import org.hibernate.annotations.Cache;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @description 患者表, 对应:姓名,年龄,性别,身份证号,床号
+ * @description 患者表, 对应:住院记录
  */
 @Entity
+@JsonIgnoreProperties(value = "patient")
 public class Patient extends PeopleEntity {
     @OneToMany
     @JoinColumn(name = "patient_id")
     private Set<Recode> recodes;
+
     public Set<Recode> getRecodes() {
         return recodes;
     }
@@ -25,12 +28,92 @@ public class Patient extends PeopleEntity {
     public void setRecodes(Set<Recode> recodes) {
         this.recodes = recodes;
     }
-    public void addRecode(Recode recode){
-        if(recodes==null){
-            recodes=new HashSet<>();
+
+    public void addRecode(Recode recode) {
+        if (recodes == null) {
+            recodes = new HashSet<>();
         }
         recodes.add(recode);
-        state=1;
+        state = 1;
     }
 
+    @Override
+    public String getNote() {
+        return super.getNote();
+    }
+
+    @Override
+    public void setNote(String note) {
+        super.setNote(note);
+    }
+
+    @Override
+    public Integer getState() {
+        return super.getState();
+    }
+
+    @Override
+    public void setState(Integer state) {
+        super.setState(state);
+    }
+
+    @Override
+    public Integer getId() {
+        return super.getId();
+    }
+
+    @Override
+    public void setId(Integer id) {
+        super.setId(id);
+    }
+
+    @Override
+    public Date getUpdateTs() {
+        return super.getUpdateTs();
+    }
+
+    @Override
+    public Date getCreateTs() {
+        return super.getCreateTs();
+    }
+
+    @Override
+    public String getName() {
+        return super.getName();
+    }
+
+    @Override
+    public void setName(String name) {
+        super.setName(name);
+    }
+
+    @Override
+    public String getIdNumber() {
+        return super.getIdNumber();
+    }
+
+    @Override
+    public void setIdNumber(String idNumber) {
+        super.setIdNumber(idNumber);
+    }
+
+    @Override
+    public String getGender() {
+        return super.getGender();
+    }
+
+    @Override
+    public void setGender(String gender) {
+        super.setGender(gender);
+    }
+
+    @Override
+    public Integer getAge() {
+        return super.getAge();
+    }
+
+    @Override
+    public void setAge(Integer age) {
+        super.setAge(age);
+    }
 }

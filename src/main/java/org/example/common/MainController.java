@@ -26,6 +26,7 @@ import javax.servlet.http.HttpSession;
  * 患者状态:0-出院 1-在住
  * 记录状态:0-有效 1-完成 2-撤销
  */
+@SuppressWarnings("SpringMVCViewInspection")
 @Controller
 public class MainController {
     @Autowired
@@ -43,6 +44,13 @@ public class MainController {
     @Autowired
     private RecodeService recodeService;
 
+    /**
+     * @param cUsername cookie中的用户名
+     * @param cPassword cookie中的密码
+     * @param sUsername session中的登录信息
+     * @return 视图
+     * @description 从Cookie和Session中获取并验证登录信息
+     */
     @RequestMapping("/")
     public String autoLogin(
             @Nullable @CookieValue("username") String cUsername,
@@ -61,12 +69,11 @@ public class MainController {
 
     /**
      * @return debug页面
-     * @description 初始化数据, 各表生成两条模拟数据
-     * 添加医生
+     * @description 初始化数据, 为每个表生成两条模拟数据
      */
     @RequestMapping("/debug")
     public String debug() {
-        if (doctorService.Init()) {
+        if (doctorService.isEmpty()) {
             Section section = new Section();
             section.setLocation("1楼西区");
             section.setSectionName("行政科");
@@ -96,7 +103,7 @@ public class MainController {
             doctor.setGender("女");
             doctor.setAge(27);
             doctor.setIdNumber("370126199804260415");
-            doctor.setSection(sectionService.findById(2));
+            doctor.setSection(sectionService.findById(1));
             doctorService.save(doctor);
 
             Bed bed = new Bed();

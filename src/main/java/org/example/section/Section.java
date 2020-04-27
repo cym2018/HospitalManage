@@ -1,5 +1,6 @@
 package org.example.section;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.example.bed.Bed;
 import org.example.common.CommonEntity;
 import org.example.doctor.Doctor;
@@ -8,16 +9,17 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@JsonIgnoreProperties(value = "section")
 public class Section extends CommonEntity {
     @Column
     private String sectionName;
     @Column
     private String location;
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "section_id")
     private Set<Doctor> doctors;
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "section_id")
     private Set<Bed> beds;
 
     public Set<Bed> getBeds() {
@@ -52,4 +54,22 @@ public class Section extends CommonEntity {
         this.sectionName = sectionName;
     }
 
+    @Override
+    public String toString() {
+        return "Section{" +
+                "sectionName='" + sectionName + '\'' +
+                ", location='" + location + '\'' +
+                ", doctors=" + doctors +
+                ", beds=" + beds +
+                ", id=" + id +
+                ", state=" + state +
+                ", note='" + note + '\'' +
+                ", createTs=" + createTs +
+                ", updateTs=" + updateTs +
+                '}';
+    }
+
+    public void addBed(Bed bed) {
+        beds.add(bed);
+    }
 }

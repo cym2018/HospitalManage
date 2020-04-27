@@ -1,11 +1,10 @@
 package org.example.common;
 
-import org.example.bed.Bed;
-
 import javax.persistence.Column;
-import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-
+/**
+ * @description 人员相关公共属性,姓名,性别,年龄,身份证号
+ */
 @MappedSuperclass
 public abstract class PeopleEntity extends CommonEntity {
     @Column

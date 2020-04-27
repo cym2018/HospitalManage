@@ -3,7 +3,10 @@ package org.example.patient;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.example.recode.Recode;
 
-@JsonPropertyOrder({"id", "name", "gender", "idNumber", "state","bed"})
+/**
+ * @description 患者表的列表视图, 屏蔽多余字段, 手动设置顺序
+ */
+@JsonPropertyOrder({"id", "name", "gender", "idNumber", "state", "bed"})
 public class PatientListView {
     Patient patient;
 

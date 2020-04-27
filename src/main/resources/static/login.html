@@ -53,9 +53,8 @@
           "/login" + urlEncoding2(app.$data.doctor)
         ).then(
           response => {
-            if (response === true) {
-              window.location.href = "/";
-            }
+            alert(response);
+            window.location.href = "/";
           }
         );
 
