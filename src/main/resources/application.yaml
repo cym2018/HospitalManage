@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/springboot?&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://cym2018.xyz:3306/springboot?&serverTimezone=Asia/Shanghai
     username: root
     password: ab370126
   jpa:
