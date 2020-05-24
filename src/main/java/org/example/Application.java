@@ -21,14 +21,4 @@ public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-
-    /**
-     * @return 数据源
-     * @description 读取数据源配置
-     */
-    @Bean
-    @ConfigurationProperties(prefix = "spring.datasource")
-    DriverManagerDataSource dataSource() {
-        return new DriverManagerDataSource();
-    }
 }
