@@ -1,10 +1,8 @@
-package org.example.doctor;
+package org.example.doctor.view;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.example.doctor.Doctor;
 
-/**
- * @description 医生表的列表视图, 屏蔽多余字段, 手动设置顺序
- */
 @JsonPropertyOrder({"id", "username", "name", "gender", "age", "idNumber"})
 public class DoctorListView {
     private final Doctor doctor;

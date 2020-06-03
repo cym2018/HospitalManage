@@ -1,5 +1,8 @@
 package org.example.bed;
 
+import org.example.bed.view.BedListView;
+import org.example.bed.view.BedLookupView;
+import org.example.common.STATE;
 import org.example.recode.Recode;
 import org.example.section.SectionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,41 +22,19 @@ public class BedService {
     @Autowired
     private SectionService sectionService;
 
-    /**
-     * @param bed 实体
-     * @return 更新后的实体
-     * @description 保存实体
-     */
-    public Bed save(Bed bed) {
+    public Bed save(Bed bed) throws Exception {
+        if (bed.getId() != null) {
+            Bed temp = findById(bed.getId());
+            bed.setRecodes(temp.getRecodes());
+        }
         return bedRepository.save(bed);
     }
 
-    /**
-     * @param No 床号
-     * @return 寻找到的记录
-     * @description 根据床号查找记录
-     */
     public Bed findByNo(String No) {
         return bedRepository.findByNo(No);
     }
 
-    /**
-     * @return 所有列表视图
-     * @description 查询全部记录, 并转换为列表视图
-     */
-    public List<BedListView> findAllListView() {
-        List<BedListView> bedList = new ArrayList<>();
-        bedRepository.findAll().forEach(o -> bedList.add(new BedListView(o)));
-        return bedList;
-    }
-
-    /**
-     * @param bed    病床实体
-     * @param recode 记录实体
-     * @return 更新后的病床实体
-     * @description 为病床添加一条关联的记录
-     */
-    public Bed addRecode(Bed bed, Recode recode) {
+    public Bed addRecode(Bed bed, Recode recode) throws Exception {
         bed.addRecode(recode);
         return save(bed);
     }
@@ -72,5 +53,32 @@ public class BedService {
 
     public void remove(Bed bed) {
         bedRepository.delete(bed);
+    }
+
+    public List<Bed> findAll() {
+        return bedRepository.findAll();
+    }
+
+    public List<BedListView> toListView(List<Bed> beds) {
+        List<BedListView> lookups = new ArrayList<>();
+        beds.forEach(o -> lookups.add(new BedListView(o)));
+        return lookups;
+    }
+
+
+    public List<BedLookupView> toLookupView(List<Bed> beds) {
+        List<BedLookupView> lookups = new ArrayList<>();
+        beds.stream().filter(o -> o.getState().equals(STATE.空闲)).forEach(o -> lookups.add(new BedLookupView(o)));
+        return lookups;
+    }
+
+    public List<BedLookupView> toLookupViews(List<Bed> beds) {
+        List<BedLookupView> lookups = new ArrayList<>();
+        beds.forEach(o -> lookups.add(new BedLookupView(o)));
+        return lookups;
+    }
+
+    public Bed findById(Integer id) throws Exception {
+        return bedRepository.findById(id).orElseThrow(Exception::new);
     }
 }

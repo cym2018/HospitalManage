@@ -2,6 +2,7 @@ package org.example.bed;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.example.common.CommonEntity;
+import org.example.common.STATE;
 import org.example.recode.Recode;
 import org.example.section.Section;
 
@@ -53,7 +54,6 @@ public class Bed extends CommonEntity {
             recodes = new HashSet<>();
         }
         this.recodes.add(recode);
-        state = 1;
     }
 
     @Override
@@ -77,12 +77,19 @@ public class Bed extends CommonEntity {
     }
 
     @Override
-    public Integer getState() {
-        return super.getState();
+    public STATE getState() {
+        if (STATE.禁用.equals(this.state)) {
+            return this.state;
+        }
+        if (recodes.stream().anyMatch(o -> o.getState().equals(STATE.有效))) {
+            return STATE.占用;
+        }
+        return STATE.空闲;
+
     }
 
     @Override
-    public void setState(Integer state) {
+    public void setState(STATE state) {
         super.setState(state);
     }
 

@@ -1,6 +1,8 @@
-package org.example.bed;
+package org.example.bed.view;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.example.bed.Bed;
+import org.example.common.STATE;
 import org.example.recode.Recode;
 
 /**
@@ -27,20 +29,11 @@ public class BedListView {
     }
 
     public String getPatient() {
-        Recode recode = bed.getRecodes().stream().filter(o -> o.getState() == 0).findFirst().orElse(null);
+        Recode recode = bed.getRecodes().stream().filter(o -> o.getState() == STATE.有效).findFirst().orElse(null);
         return recode == null ? null : recode.getPatient().getName();
     }
 
     public String getState() {
-        switch (bed.getState()) {
-            case 0:
-                return "可用";
-            case 1:
-                return "正在使用";
-            case 2:
-                return "禁止使用";
-            default:
-                return null;
-        }
+        return bed.getState().name();
     }
 }

@@ -3,6 +3,7 @@ package org.example.recode;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.example.bed.Bed;
 import org.example.common.CommonEntity;
+import org.example.common.STATE;
 import org.example.patient.Patient;
 
 import javax.persistence.Column;
@@ -19,6 +20,7 @@ public class Recode extends CommonEntity {
     private Patient patient;
     @Column
     private Date endTime;
+
 
     public Date getEndTime() {
         return endTime;
@@ -47,12 +49,16 @@ public class Recode extends CommonEntity {
     }
 
     @Override
-    public Integer getState() {
-        return super.getState();
+    public STATE getState() {
+        if(endTime==null){
+            return STATE.有效;
+        }else {
+            return STATE.无效;
+        }
     }
 
     @Override
-    public void setState(Integer state) {
+    public void setState(STATE state) {
         super.setState(state);
     }
 

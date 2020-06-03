@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * @description 所有表都包含的公共属性,id,状态,备注,创建时间,更新时间
+ * @description 所有表都包含的公共属性, id, 状态, 备注, 创建时间, 更新时间
  */
 @MappedSuperclass
 public abstract class CommonEntity {
@@ -15,7 +15,7 @@ public abstract class CommonEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
     @Column
-    protected Integer state;
+    protected STATE state;
     @Column
     protected String note;
     @CreationTimestamp
@@ -23,13 +23,11 @@ public abstract class CommonEntity {
     @UpdateTimestamp
     protected Date updateTs;
 
-    public Integer getState() {
-        if (state == null)
-            return 0;
+    public STATE getState() {
         return state;
     }
 
-    public void setState(Integer state) {
+    public void setState(STATE state) {
         this.state = state;
     }
 

@@ -1,5 +1,8 @@
 package org.example.section;
 
+import org.example.recode.view.RecodeLookupView;
+import org.example.section.view.SectionListView;
+import org.example.section.view.SectionLookupView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,15 +22,24 @@ public class SectionService {
         return sectionRepository.findById(id).orElse(null);
     }
 
-    public List<SectionListView> findAllListView() {
-        List<SectionListView> sectionList = new ArrayList<>();
-        sectionRepository.findAll().forEach(o -> sectionList.add(new SectionListView(o)));
-        return sectionList;
+    public List<Section> findAll() {
+        return sectionRepository.findAll();
     }
 
-    public List<SectionKeyValueView> findAllKeyValueView() {
-        List<SectionKeyValueView> sectionList = new ArrayList<>();
-        sectionRepository.findAll().forEach(o -> sectionList.add(new SectionKeyValueView(o)));
-        return sectionList;
+    public List<SectionListView> toListView(List<Section> list) {
+        List<SectionListView> lookups = new ArrayList<>();
+        list.forEach(o -> lookups.add(new SectionListView(o)));
+        return lookups;
     }
+
+    public List<SectionLookupView> toLookupView(List<Section> list) {
+        List<SectionLookupView> lookups = new ArrayList<>();
+        list.forEach(o -> lookups.add(new SectionLookupView(o)));
+        return lookups;
+    }
+
+    public void delete(Section section) {
+        sectionRepository.delete(section);
+    }
+
 }

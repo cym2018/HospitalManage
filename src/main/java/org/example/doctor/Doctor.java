@@ -2,6 +2,7 @@ package org.example.doctor;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.example.common.PeopleEntity;
+import org.example.common.STATE;
 import org.example.section.Section;
 
 import javax.persistence.Column;
@@ -69,12 +70,12 @@ public class Doctor extends PeopleEntity {
     }
 
     @Override
-    public Integer getState() {
+    public STATE getState() {
         return super.getState();
     }
 
     @Override
-    public void setState(Integer state) {
+    public void setState(STATE state) {
         super.setState(state);
     }
 

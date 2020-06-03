@@ -1,16 +1,17 @@
-package org.example.recode;
+package org.example.recode.view;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.example.recode.Recode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
-@JsonPropertyOrder({"id","patient","section","bedNo","state","startTime","endTime"})
+@JsonPropertyOrder({"id", "patient", "section", "bedNo", "state", "startTime", "endTime"})
 public class RecodeListView {
-    Recode recode;
+    private final Recode recode;
 
-    RecodeListView(Recode recode) {
+    public RecodeListView(Recode recode) {
         this.recode = recode;
     }
 
@@ -19,12 +20,7 @@ public class RecodeListView {
     }
 
     public String getState() {
-        switch (recode.getState()){
-            case 0:return "有效";
-            case 1:return "完成";
-            case 2:return "撤销";
-            default:return recode.getState().toString();
-        }
+        return recode.getState().name();
     }
 
     public String getPatient() {
@@ -38,12 +34,14 @@ public class RecodeListView {
     public String getSection() {
         return recode.getBed().getSection().getSectionName();
     }
+
     @JsonFormat(pattern = "YYYY-MM-dd HH:mm:ss")
-    public Date getStartTime(){
+    public Date getStartTime() {
         return recode.getCreateTs();
     }
+
     @JsonFormat(pattern = "YYYY-MM-dd HH:mm:ss")
-    public Date getEndTime(){
+    public Date getEndTime() {
         return recode.getEndTime();
     }
 }

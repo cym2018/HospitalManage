@@ -2,6 +2,7 @@ package org.example.patient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.example.common.PeopleEntity;
+import org.example.common.STATE;
 import org.example.recode.Recode;
 
 import javax.persistence.Entity;
@@ -34,7 +35,6 @@ public class Patient extends PeopleEntity {
             recodes = new HashSet<>();
         }
         recodes.add(recode);
-        state = 1;
     }
 
     @Override
@@ -48,12 +48,15 @@ public class Patient extends PeopleEntity {
     }
 
     @Override
-    public Integer getState() {
-        return super.getState();
+    public STATE getState() {
+        if(recodes.stream().anyMatch(o->o.getState().equals(STATE.有效))){
+            return STATE.住院;
+        }
+        return STATE.未住院;
     }
 
     @Override
-    public void setState(Integer state) {
+    public void setState(STATE state) {
         super.setState(state);
     }
 

@@ -1,6 +1,8 @@
-package org.example.patient;
+package org.example.patient.view;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.example.common.STATE;
+import org.example.patient.Patient;
 import org.example.recode.Recode;
 
 /**
@@ -10,7 +12,7 @@ import org.example.recode.Recode;
 public class PatientListView {
     Patient patient;
 
-    PatientListView(Patient patient) {
+    public PatientListView(Patient patient) {
         this.patient = patient;
     }
 
@@ -31,18 +33,11 @@ public class PatientListView {
     }
 
     public String getState() {
-        switch (patient.getState()) {
-            case 0:
-                return "出院";
-            case 1:
-                return "在住";
-            default:
-                return patient.getState().toString();
-        }
+        return patient.getState().name();
     }
 
     public String getBed() {
-        Recode recode = patient.getRecodes().stream().filter(o -> o.getState() == 0).findFirst().orElse(null);
+        Recode recode = patient.getRecodes().stream().filter(o -> o.getState() != STATE.未住院).findFirst().orElse(null);
         if (recode != null)
             return recode.getBed().getNo();
         return "";

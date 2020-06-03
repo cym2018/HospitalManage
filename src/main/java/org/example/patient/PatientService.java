@@ -1,5 +1,9 @@
 package org.example.patient;
 
+import org.example.common.STATE;
+import org.example.patient.view.PatientEditView;
+import org.example.patient.view.PatientListView;
+import org.example.patient.view.PatientLookupView;
 import org.example.recode.Recode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,42 +19,48 @@ public class PatientService {
     @Autowired
     PatientRepository patientRepository;
 
-    /**
-     * @param patient 实体
-     * @return 更新后的状态
-     * @description 保存给定实体
-     */
+
     public Patient save(Patient patient) {
         return patientRepository.save(patient);
     }
 
-    /**
-     * @param idNumber 身份证号
-     * @return 实体
-     * @description 根据身份证号查询实体
-     */
     public Patient findByIdNumber(String idNumber) {
         return patientRepository.findByIdNumber(idNumber);
     }
 
-    /**
-     * @return 所有列表视图
-     * @description 查询全部记录, 并转换为列表视图
-     */
-    public List<PatientListView> findAllListView() {
-        List<PatientListView> patientList = new ArrayList<>();
-        patientRepository.findAll().forEach(o -> patientList.add(new PatientListView(o)));
-        return patientList;
+    public List<Patient> findAll() {
+        return patientRepository.findAll();
     }
 
-    /**
-     * @param patient 患者实体
-     * @param recode  记录实体
-     * @return 更新后的患者信息
-     * @description 为患者添加就医记录
-     */
     public Patient addRecode(Patient patient, Recode recode) {
         patient.addRecode(recode);
         return save(patient);
+    }
+
+    public List<PatientListView> toListView(List<Patient> patients) {
+        List<PatientListView> listViews = new ArrayList<>();
+        patients.forEach(o -> listViews.add(new PatientListView(o)));
+        return listViews;
+    }
+
+    public List<PatientLookupView> toLookupView(List<Patient> patients) {
+        List<PatientLookupView> listViews = new ArrayList<>();
+        patients.stream().filter(o->o.getState().equals(STATE.未住院)).forEach(o -> listViews.add(new PatientLookupView(o)));
+        return listViews;
+    }
+    public List<PatientLookupView> toLookupViews(List<Patient> patients) {
+        List<PatientLookupView> listViews = new ArrayList<>();
+        patients.forEach(o -> listViews.add(new PatientLookupView(o)));
+        return listViews;
+    }
+
+    public List<PatientEditView> toEditView(List<Patient> patients) {
+        List<PatientEditView> listViews = new ArrayList<>();
+        patients.forEach(o -> listViews.add(new PatientEditView(o)));
+        return listViews;
+    }
+
+    public void delete(Patient patient) {
+        patientRepository.delete(patient);
     }
 }

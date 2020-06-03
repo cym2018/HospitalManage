@@ -1,9 +1,11 @@
-package org.example.section;
+package org.example.section.view;
 
-public class SectionKeyValueView {
+import org.example.section.Section;
+
+public class SectionLookupView {
     private final Section section;
 
-    public SectionKeyValueView(Section section) {
+    public SectionLookupView(Section section) {
         this.section = section;
     }
 

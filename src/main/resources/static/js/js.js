@@ -1,40 +1,47 @@
 'use strict';
-
-// 通用
-const statistics = {}, counts = {};
-const selectForm = {};
-const list = {"data": []};
-const page = {
-  "_currPage": 0,
-  "_showPage": 1,
-  "totalPage": 0,
-  "totalRow": 0,
-  "pageSize": 20,
-  set currPage(val) {
-    if (val >= 0 && val < this.totalPage) {
-      this._currPage = val;
-      this._showPage = val + 1;
-    }
+const url={
+  url:["/bed/","/recode/","/patient/","/doctor/","/section/"],
+  list(tab){
+    return this.url[tab]+"list";
   },
-  set showPage(val) {
-    this._showPage = val;
-    this._currPage = val - 1;
+  edit(tab,id){
+    return this.url[tab]+id;
   },
-  get showPage() {
-    return this._showPage;
+  lookup(tab){
+    return this.url[tab]+"lookup";
   },
-  get currPage() {
-    return this._currPage;
+  remove(tab,id){
+    return this.url[tab]+"remove/"+id;
   },
-  get firstRow() {
-    return this.pageSize * this._currPage + 1;
-  },
-  get lastRow() {
-    if (this.pageSize * (this._currPage + 1) > this.totalRow)
-      return this.totalRow;
-    return this.pageSize * (this._currPage + 1);
-  },
+  save(tab){
+    return this.url[tab]+"save";
+  }
 };
+const data={
+  entity:"",
+  list:[],
+  lookup:{
+    bed:[],
+    doctor:[],
+    patient:[],
+    recode:[],
+    section:[],
+  },
+  username:getCookie("username"),
+};
+const page={
+  tab:0,
+  func:0,
+  title:["病床管理", "就诊记录", "患者管理", "医生管理", "科室管理"],
+  table:[
+          ["id", "床号", "所属科室", "当前病人", "床位状态"],
+          ["id", "姓名", "就诊科室", "床号", "就诊状态", "入院时间", "出院时间"],
+          ["id", "姓名", "性别", "身份证号", "患者状态", "床号"],
+          ["id", "用户名", "姓名", "性别", "年龄", "身份证号", "所在科室"],
+          ["id", "科室名称", "地址", "病床总数", "可用床位"]
+        ],
+
+}
 
 // 获取url中的值
 function getUrl(key) {
@@ -58,12 +65,6 @@ function getVariable(vars, key) {
   }
   return false;
 }
-
-/**
- * @description 将变量集合编码为&开头的字符串
- * @param object 变量集合
- * @returns {string} url
- */
 function urlEncoding(object) {
   let ret = '';
   for (let i in object) {
@@ -73,12 +74,6 @@ function urlEncoding(object) {
   }
   return ret;
 }
-
-/**
- * @description 将变量集合编码为?开头的字符串
- * @param object 变量集合
- * @returns {string} url
- */
 function urlEncoding2(object) {
   let ret = '';
   for (let i in object) {

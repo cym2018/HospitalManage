@@ -1,4 +1,7 @@
-package org.example.bed;
+package org.example.bed.view;
+
+import org.example.bed.Bed;
+import org.example.common.STATE;
 
 public class BedEditView {
     private final Bed bed;
@@ -23,7 +26,7 @@ public class BedEditView {
         return bed.getNote();
     }
 
-    public Integer getState() {
+    public STATE getState() {
         return bed.getState();
     }
 }

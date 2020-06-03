@@ -72,19 +72,19 @@ public class MainController {
      * @description 初始化数据, 为每个表生成两条模拟数据
      */
     @RequestMapping("/debug")
-    public String debug() {
+    public String debug() throws Exception {
         if (doctorService.isEmpty()) {
             Section section = new Section();
             section.setLocation("1楼西区");
-            section.setSectionName("行政科");
+            section.setSectionName("神经内科");
             section.setNote("双休");
-            section.setState(0);
+            section.setState(STATE.正常);
             sectionService.save(section);
             section = new Section();
             section.setLocation("1楼东区");
-            section.setSectionName("急诊科");
+            section.setSectionName("儿科");
             section.setNote("7*24值班");
-            section.setState(0);
+            section.setState(STATE.正常);
             sectionService.save(section);
 
             Doctor doctor = new Doctor();
@@ -140,6 +140,7 @@ public class MainController {
             recode.setNote("家属陪床");
             recode.setBed(bed);
             recode.setPatient(patient);
+            recode.setState(STATE.住院);
             recode = recodeService.save(recode);
             bed.addRecode(recode);
             patient.addRecode(recode);
@@ -153,6 +154,7 @@ public class MainController {
             recode.setNote("病情稳定");
             recode.setBed(bed);
             recode.setPatient(patient);
+            recode.setState(STATE.住院);
             recode = recodeService.save(recode);
             bed.addRecode(recode);
             patient.addRecode(recode);
