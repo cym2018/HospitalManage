@@ -1,15 +1,22 @@
 package org.example.section.view;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.example.common.STATE;
+import org.example.bed.Bed;
+import org.example.bed.BedService;
+import org.example.common.BEDSTATE;
 import org.example.section.Section;
+
+import java.util.List;
 
 @JsonPropertyOrder({"id", "name", "location", "bedNumber", "freeBedNumber"})
 public class SectionListView {
-    Section section;
+    final Section section;
 
-    public SectionListView(Section section) {
+    final BedService bedService;
+
+    public SectionListView(Section section, BedService bedService) {
         this.section = section;
+        this.bedService = bedService;
     }
 
     public Integer getId() {
@@ -25,10 +32,14 @@ public class SectionListView {
     }
 
     public Integer getBedNumber() {
-        return section.getBeds().size();
+        List<Bed> beds = bedService.findBySection(section);
+        if (beds == null) {
+            return 0;
+        }
+        return beds.size();
     }
 
     public long getFreeBedNumber() {
-        return section.getBeds().stream().filter(o -> o.getState().equals(STATE.空闲)).count();
+        return bedService.findBySection(section).stream().filter(o -> o.getState().equals(BEDSTATE.空闲)).count();
     }
 }

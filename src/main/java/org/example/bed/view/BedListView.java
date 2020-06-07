@@ -2,7 +2,7 @@ package org.example.bed.view;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.example.bed.Bed;
-import org.example.common.STATE;
+import org.example.common.RECODESTATE;
 import org.example.recode.Recode;
 
 /**
@@ -29,7 +29,7 @@ public class BedListView {
     }
 
     public String getPatient() {
-        Recode recode = bed.getRecodes().stream().filter(o -> o.getState() == STATE.有效).findFirst().orElse(null);
+        Recode recode = bed.getRecodes().stream().filter(o -> o.getState() == RECODESTATE.有效).findFirst().orElse(null);
         return recode == null ? null : recode.getPatient().getName();
     }
 

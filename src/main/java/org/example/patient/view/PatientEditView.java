@@ -1,7 +1,7 @@
 package org.example.patient.view;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.example.common.STATE;
+import org.example.common.RECODESTATE;
 import org.example.patient.Patient;
 import org.example.recode.Recode;
 @JsonPropertyOrder({"id", "name", "gender", "idNumber", "state", "bed"})
@@ -33,7 +33,7 @@ public class PatientEditView {
     }
 
     public String getBed() {
-        Recode recode = patient.getRecodes().stream().filter(o -> o.getState() == STATE.未住院).findFirst().orElse(null);
+        Recode recode = patient.getRecodes().stream().filter(o -> o.getState() == RECODESTATE.有效).findFirst().orElse(null);
         if (recode != null)
             return recode.getBed().getNo();
         return "";

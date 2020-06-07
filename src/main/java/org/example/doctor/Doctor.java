@@ -1,8 +1,6 @@
 package org.example.doctor;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.example.common.PeopleEntity;
-import org.example.common.STATE;
 import org.example.section.Section;
 
 import javax.persistence.Column;
@@ -22,6 +20,7 @@ public class Doctor extends PeopleEntity {
     private String password;
     @ManyToOne
     private Section section;
+
 
     public String getUsername() {
         return username;
@@ -69,15 +68,6 @@ public class Doctor extends PeopleEntity {
         super.setId(id);
     }
 
-    @Override
-    public STATE getState() {
-        return super.getState();
-    }
-
-    @Override
-    public void setState(STATE state) {
-        super.setState(state);
-    }
 
     @Override
     public String getGender() {

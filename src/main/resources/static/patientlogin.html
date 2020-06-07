@@ -7,28 +7,28 @@
   <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
   <script src="js/js.js"></script>
-  <title>病床信息管理系统</title>
+  <title>患者登陆</title>
 </head>
 <body style=" background: url(/pic/background.jpg) no-repeat center center fixed; background-size: 100%;">
 <div id="app" class="modal-dialog" style="margin-top: 10%;">
   <div class="modal-content">
     <div class="modal-header">
-      <h4 class="modal-title text-center" id="myModalLabel">登录</h4>
+      <h4 class="modal-title text-center" id="myModalLabel">患者登录</h4>
     </div>
     <div class="modal-body" id="model-body">
       <div class="form-group">
-        <input type="text" class="form-control" placeholder="用户名" autocomplete="off" v-model="doctor.username">
+        <input type="text" class="form-control" placeholder="姓名" autocomplete="off" v-model="patient.name">
       </div>
       <div class="form-group">
-        <input type="password" class="form-control" placeholder="密码" autocomplete="off" v-model="doctor.password">
+        <input type="password" class="form-control" placeholder="身份证号" autocomplete="off" v-model="patient.idNumber">
       </div>
     </div>
     <div class="modal-footer">
       <div class="form-group">
-        <button type="button" class="btn btn-primary form-control" @click="login">医生登录</button>
+        <button type="button" class="btn btn-primary form-control" @click="login">登录</button>
       </div>
       <div class="form-group">
-        <button type="button" class="btn btn-default form-control" onclick="window.location.href = '/patientlogin.html'">患者登陆</button>
+        <button type="button" class="btn btn-default form-control" @click="reg">注册</button>
       </div>
     </div>
   </div>
@@ -37,24 +37,33 @@
   let app = new Vue({
     el: "#app",
     data: {
-      doctor: {
-        username: "",
-        password: "",
+      patient: {
+        name: "",
+        idNumber: "",
       },
       ret: ""
     },
     methods: {
       urlEncoding2,
-      showValues: function () {
-        alert(this.username + this.password);
-      },
+      reg:function(){
+        jQuery.get("/psave"+urlEncoding2(app.$data.patient)).then(
+          response => {
+            alert(response);
+          }
+        )
+      }
+      ,
       login: function () {
         jQuery.get(
-          "/login" + urlEncoding2(app.$data.doctor)
+          "/plogin" + urlEncoding2(app.$data.patient)
         ).then(
           response => {
             alert(response);
-            window.location.href = "/";
+            if(response==='登陆成功'){
+              window.location.href = "/";
+            }else{
+              window.location.href = "/patientlogin.html";
+            }
           }
         );
       }

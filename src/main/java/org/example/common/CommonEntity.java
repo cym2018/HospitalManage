@@ -15,21 +15,12 @@ public abstract class CommonEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
     @Column
-    protected STATE state;
-    @Column
     protected String note;
     @CreationTimestamp
     protected Date createTs;
     @UpdateTimestamp
     protected Date updateTs;
 
-    public STATE getState() {
-        return state;
-    }
-
-    public void setState(STATE state) {
-        this.state = state;
-    }
 
     public String getNote() {
         return note;

@@ -1,8 +1,8 @@
 package org.example.bed;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.example.common.BEDSTATE;
 import org.example.common.CommonEntity;
-import org.example.common.STATE;
 import org.example.recode.Recode;
 import org.example.section.Section;
 
@@ -17,6 +17,8 @@ import java.util.Set;
 @Entity
 @JsonIgnoreProperties(value = "bed")
 public class Bed extends CommonEntity {
+    @Column
+    BEDSTATE state;
     @ManyToOne
     private Section section;
     @Column(unique = true)
@@ -76,21 +78,13 @@ public class Bed extends CommonEntity {
         super.setId(id);
     }
 
-    @Override
-    public STATE getState() {
-        if (STATE.禁用.equals(this.state)) {
-            return this.state;
-        }
-        if (recodes.stream().anyMatch(o -> o.getState().equals(STATE.有效))) {
-            return STATE.占用;
-        }
-        return STATE.空闲;
+    public BEDSTATE getState() {
+        return state;
 
     }
 
-    @Override
-    public void setState(STATE state) {
-        super.setState(state);
+    public void setState(BEDSTATE state) {
+        this.state = state;
     }
 
     @Override

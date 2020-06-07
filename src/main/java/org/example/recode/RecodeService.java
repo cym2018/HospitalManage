@@ -1,6 +1,6 @@
 package org.example.recode;
 
-import org.example.common.STATE;
+import org.example.patient.Patient;
 import org.example.recode.view.RecodeEditView;
 import org.example.recode.view.RecodeListView;
 import org.example.recode.view.RecodeLookupView;
@@ -22,6 +22,10 @@ public class RecodeService {
 
     public List<Recode> findAll() {
         return recodeRepository.findAll();
+    }
+
+    public List<Recode> pFindAll(Patient patient) {
+        return recodeRepository.findByPatient(patient);
     }
 
     public List<RecodeListView> toListView(List<Recode> recodes) {

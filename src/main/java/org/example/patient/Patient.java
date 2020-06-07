@@ -1,10 +1,11 @@
 package org.example.patient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.example.common.PATIENTSTATE;
 import org.example.common.PeopleEntity;
-import org.example.common.STATE;
 import org.example.recode.Recode;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -18,6 +19,8 @@ import java.util.Set;
 @Entity
 @JsonIgnoreProperties(value = "patient")
 public class Patient extends PeopleEntity {
+    @Column
+    PATIENTSTATE state=PATIENTSTATE.未住院;
     @OneToMany
     @JoinColumn(name = "patient_id")
     private Set<Recode> recodes;
@@ -47,17 +50,13 @@ public class Patient extends PeopleEntity {
         super.setNote(note);
     }
 
-    @Override
-    public STATE getState() {
-        if(recodes.stream().anyMatch(o->o.getState().equals(STATE.有效))){
-            return STATE.住院;
-        }
-        return STATE.未住院;
+
+    public PATIENTSTATE getState() {
+        return state;
     }
 
-    @Override
-    public void setState(STATE state) {
-        super.setState(state);
+    public void setState(PATIENTSTATE state) {
+        this.state=state;
     }
 
     @Override

@@ -2,14 +2,18 @@ package org.example.bed;
 
 import org.example.bed.view.BedListView;
 import org.example.bed.view.BedLookupView;
-import org.example.common.STATE;
+import org.example.common.BEDSTATE;
 import org.example.recode.Recode;
+import org.example.section.Section;
 import org.example.section.SectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.example.common.BEDSTATE.空闲;
 
 /**
  * @description 病床管理相关业务逻辑
@@ -68,7 +72,7 @@ public class BedService {
 
     public List<BedLookupView> toLookupView(List<Bed> beds) {
         List<BedLookupView> lookups = new ArrayList<>();
-        beds.stream().filter(o -> o.getState().equals(STATE.空闲)).forEach(o -> lookups.add(new BedLookupView(o)));
+        beds.stream().filter(o -> o.getState().equals(BEDSTATE.空闲)).forEach(o -> lookups.add(new BedLookupView(o)));
         return lookups;
     }
 
@@ -80,5 +84,16 @@ public class BedService {
 
     public Bed findById(Integer id) throws Exception {
         return bedRepository.findById(id).orElseThrow(Exception::new);
+    }
+
+    public List<Bed> findBySection(Section section) {
+        return bedRepository.findBySection(section);
+    }
+
+    public List<Bed> findFree() {
+        List<Bed> ret = bedRepository.findAll();
+        return ret.stream().filter(o -> {
+            return o.getState() == 空闲;
+        }).collect(Collectors.toList());
     }
 }

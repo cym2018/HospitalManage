@@ -1,6 +1,6 @@
 package org.example.section;
 
-import org.example.recode.view.RecodeLookupView;
+import org.example.bed.BedService;
 import org.example.section.view.SectionListView;
 import org.example.section.view.SectionLookupView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,8 @@ import java.util.List;
 
 @Service
 public class SectionService {
+    @Autowired
+    BedService bedService;
     @Autowired
     private SectionRepository sectionRepository;
 
@@ -28,7 +30,7 @@ public class SectionService {
 
     public List<SectionListView> toListView(List<Section> list) {
         List<SectionListView> lookups = new ArrayList<>();
-        list.forEach(o -> lookups.add(new SectionListView(o)));
+        list.forEach(o -> lookups.add(new SectionListView(o, bedService)));
         return lookups;
     }
 

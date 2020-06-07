@@ -3,9 +3,13 @@ package org.example.recode;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.bed.Bed;
+import org.example.bed.BedService;
+import org.example.common.BEDSTATE;
+import org.example.common.PATIENTSTATE;
+import org.example.common.RECODESTATE;
 import org.example.patient.Patient;
+import org.example.patient.PatientService;
 import org.example.recode.view.RecodeEditView;
-import org.example.section.Section;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,19 +23,46 @@ public class RecodeController {
     ObjectMapper objectMapper;
     @Autowired
     RecodeService recodeService;
+    @Autowired
+    PatientService patientService;
+    @Autowired
+    BedService bedService;
 
     @RequestMapping("/list")
     String recodeList() throws JsonProcessingException {
         return objectMapper.writeValueAsString(recodeService.toListView(recodeService.findAll()));
     }
 
+    @RequestMapping("/p/list")
+    String pRecodeList(String idNumber) throws JsonProcessingException {
+        Patient patient = patientService.findByIdNumber(idNumber);
+        return objectMapper.writeValueAsString(recodeService.toListView(recodeService.pFindAll(patient)));
+    }
+
+    @RequestMapping("/acc/{id}")
+    String acc(@PathVariable("id") Recode recode) throws Exception {
+        recode.getBed().setState(BEDSTATE.占用);
+        bedService.save(recode.getBed());
+        recode.setState(RECODESTATE.有效);
+        recodeService.save(recode);
+        recode.getPatient().setState(PATIENTSTATE.住院);
+        patientService.save(recode.getPatient());
+        return "成功";
+    }
+
     @RequestMapping("/save")
-    public String save(Recode recode, @RequestParam("bedNo")Bed bed, @RequestParam("patient")Patient patient) {
+    public String save(Recode recode, @RequestParam("bedNo") Bed bed, @RequestParam("patient") Patient patient) {
         try {
-            System.out.println(recode.getState());
             recode.setBed(bed);
             recode.setPatient(patient);
+            if (recode.getState() == null)
+                recode.setState(RECODESTATE.有效);
             recodeService.save(recode);
+            if (recode.getState().equals(RECODESTATE.预约))
+                bed.setState(BEDSTATE.预约);
+            if (recode.getState().equals(RECODESTATE.有效))
+                bed.setState(BEDSTATE.占用);
+            bedService.save(bed);
             return "保存成功";
         } catch (Exception e) {
             return "保存失败";
@@ -57,6 +88,7 @@ public class RecodeController {
     public String lookup() throws JsonProcessingException {
         return objectMapper.writeValueAsString(recodeService.toLookupView(recodeService.findAll()));
     }
+
     @RequestMapping("/lookups")
     public String lookups() throws JsonProcessingException {
         return objectMapper.writeValueAsString(recodeService.toLookupView(recodeService.findAll()));

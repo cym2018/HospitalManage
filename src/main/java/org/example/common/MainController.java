@@ -55,7 +55,10 @@ public class MainController {
     public String autoLogin(
             @Nullable @CookieValue("username") String cUsername,
             @Nullable @CookieValue("password") String cPassword,
-            @Nullable @SessionAttribute("username") String sUsername
+            @Nullable @SessionAttribute("username") String sUsername,
+            @Nullable @CookieValue("name") String cName,
+            @Nullable @CookieValue("idNumber") String cIdNumber,
+            @Nullable @SessionAttribute("name") String sName
     ) {
         if (sUsername != null || doctorService.Login(cUsername, cPassword)) {
             // session 或 cookie存在,已登陆
@@ -63,6 +66,9 @@ public class MainController {
                 session.setAttribute("username", cUsername);
             }
             return "main";
+        }
+        if(sName != null || patientService.Login(cName, cIdNumber)){
+            return "pmain";
         }
         return "login";
     }
@@ -78,13 +84,11 @@ public class MainController {
             section.setLocation("1楼西区");
             section.setSectionName("神经内科");
             section.setNote("双休");
-            section.setState(STATE.正常);
             sectionService.save(section);
             section = new Section();
             section.setLocation("1楼东区");
             section.setSectionName("儿科");
             section.setNote("7*24值班");
-            section.setState(STATE.正常);
             sectionService.save(section);
 
             Doctor doctor = new Doctor();
@@ -140,10 +144,12 @@ public class MainController {
             recode.setNote("家属陪床");
             recode.setBed(bed);
             recode.setPatient(patient);
-            recode.setState(STATE.住院);
+            recode.setState(RECODESTATE.有效);
             recode = recodeService.save(recode);
             bed.addRecode(recode);
             patient.addRecode(recode);
+            bed.setState(BEDSTATE.占用);
+            patient.setState(PATIENTSTATE.住院);
             bedService.save(bed);
             patientService.save(patient);
 
@@ -151,13 +157,15 @@ public class MainController {
             recode = new Recode();
             bed = bedService.findByNo("02001");
             patient = patientService.findByIdNumber("370126199804260417");
+            patient.setState(PATIENTSTATE.住院);
             recode.setNote("病情稳定");
             recode.setBed(bed);
             recode.setPatient(patient);
-            recode.setState(STATE.住院);
+            recode.setState(RECODESTATE.有效);
             recode = recodeService.save(recode);
             bed.addRecode(recode);
             patient.addRecode(recode);
+            bed.setState(BEDSTATE.占用);
             bedService.save(bed);
             patientService.save(patient);
         }

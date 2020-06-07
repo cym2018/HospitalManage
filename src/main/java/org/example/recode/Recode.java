@@ -3,7 +3,7 @@ package org.example.recode;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.example.bed.Bed;
 import org.example.common.CommonEntity;
-import org.example.common.STATE;
+import org.example.common.RECODESTATE;
 import org.example.patient.Patient;
 
 import javax.persistence.Column;
@@ -20,7 +20,8 @@ public class Recode extends CommonEntity {
     private Patient patient;
     @Column
     private Date endTime;
-
+    @Column
+    private RECODESTATE state;
 
     public Date getEndTime() {
         return endTime;
@@ -48,18 +49,12 @@ public class Recode extends CommonEntity {
         super.setNote(note);
     }
 
-    @Override
-    public STATE getState() {
-        if(endTime==null){
-            return STATE.有效;
-        }else {
-            return STATE.无效;
-        }
+    public RECODESTATE getState() {
+        return state;
     }
 
-    @Override
-    public void setState(STATE state) {
-        super.setState(state);
+    public void setState(RECODESTATE state) {
+        this.state = state;
     }
 
     @Override

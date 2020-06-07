@@ -1,6 +1,6 @@
 package org.example.patient;
 
-import org.example.common.STATE;
+import org.example.common.PATIENTSTATE;
 import org.example.patient.view.PatientEditView;
 import org.example.patient.view.PatientListView;
 import org.example.patient.view.PatientLookupView;
@@ -45,7 +45,7 @@ public class PatientService {
 
     public List<PatientLookupView> toLookupView(List<Patient> patients) {
         List<PatientLookupView> listViews = new ArrayList<>();
-        patients.stream().filter(o->o.getState().equals(STATE.未住院)).forEach(o -> listViews.add(new PatientLookupView(o)));
+        patients.stream().filter(o->o.getState().equals(PATIENTSTATE.未住院)).forEach(o -> listViews.add(new PatientLookupView(o)));
         return listViews;
     }
     public List<PatientLookupView> toLookupViews(List<Patient> patients) {
@@ -62,5 +62,12 @@ public class PatientService {
 
     public void delete(Patient patient) {
         patientRepository.delete(patient);
+    }
+
+    public boolean Login(String name, String idNumber) {
+        if (name == null || idNumber == null) {
+            return false;
+        }
+        return patientRepository.existsByNameAndIdNumber(name, idNumber);
     }
 }
