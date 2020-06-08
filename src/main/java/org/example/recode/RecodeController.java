@@ -78,6 +78,10 @@ public class RecodeController {
     public String remove(@PathVariable("id") Recode recode) {
         try {
             recodeService.delete(recode);
+            recode.getPatient().setState(PATIENTSTATE.未住院);
+            patientService.save(recode.getPatient());
+            recode.getBed().setState(BEDSTATE.空闲);
+            bedService.save(recode.getBed());
             return "成功";
         } catch (Exception e) {
             return "失败";
