@@ -37,7 +37,7 @@ public class PatientListView {
     }
 
     public String getBed() {
-        Recode recode = patient.getRecodes().stream().filter(o -> o.getState() != RECODESTATE.有效).findFirst().orElse(null);
+        Recode recode = patient.getRecodes().stream().filter(o -> o.getState() == RECODESTATE.有效).findFirst().orElse(null);
         if (recode != null)
             return recode.getBed().getNo();
         return "";
